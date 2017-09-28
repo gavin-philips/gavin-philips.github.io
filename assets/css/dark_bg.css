@@ -1,5 +1,7 @@
-background-image: url("../../images/wheelchair_Geoge_Hodan_publicdomainpictures_dark.png");
-/*background-position: center;
-background-size: cover;
-background-repeat: no-repeat;
-z-index: 1;*/s
+#bg:after {
+  background-image: url("../../images/wheelchair_Geoge_Hodan_publicdomainpictures_dark.png");
+  /*background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;*/
+}
