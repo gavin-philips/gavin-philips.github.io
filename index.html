@@ -99,7 +99,9 @@
 							<article id="resources">
 								<h2 class="major">Resources</h2>
 								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
-								<p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
+								<p>Text</p>
+								<!-- https://www.youtube.com/watch?v=dyWMp3W6xs8 -->
+								<!-- http://thecontrollerproject.com/ -->
 							</article>
 
 						<!-- Contact -->
@@ -148,11 +150,90 @@
 								<p>Text</p>
 							</article>
 						
+						
 							<article id="chairinterface">
 								<h2 class="major" style="width:100%">Wireless computer-wheelchair interface</h2>
 								<span class="image right"><img src="/images/wheelchair_interface.jpg" alt="Electronics for wireless computer-wheelchair interface" /></span>
 						
-								<p>Text</p>
+								<p>In designing the eye-controlled wheelchair, it was necessary to reverse engineer the available power wheelchair and hack into its proprietary circuitry. 
+									This process took quite a while, and has been repeated by many other researchers around the world. This seems like a waste of time that could be 
+									better spent developing improved input methods, control algorithms, environmental sensors, and so on. No one likes reinventing the wheel.</p>
+								<p>In order to alleviate this issue, I have done some work to develop a universal computer-wheelchair interface, which would handle that part of the 
+									puzzle and allow researchers to focus their time on more important endeavors.  In addition, this will allow users to take advantage of currently 
+									existing computer access methods, such as head trackers, specialized mice, keyboards, joysticks, touch screens, single or double switch scanning, etc. 
+									Combining such a tool with preexisting eye trackers (like those from Tobii and Dynavox) would result in an improved alternative to my previous 
+									eye-controlled wheelchair. Finally, the use of a common PC as a controller (as opposed to one or more microcontrollers) would make software 
+									development more accessible, opening doors for work in self-localization, mapping, obstacle avoidance, semi-autonomous navigation, docking, 
+									input smoothing/correction, and other avenues of smart wheelchair research.</p>
+								<p>The current version of my interface uses an Arduino microcontroller and Bluetooth to allow a computer, tablet, or smart phone to wirelessly control 
+									most of the power wheelchairs that accept "alternative drive controls." The four major power wheelchair brands in the U.S. 
+									(Invacare, Pride/Quantum, Quickie, and Permobil) use different, proprietary connections to interface with specialized drive controls. 
+									Some developers (like Adaptive Switch Labs) produce products that interface with these connections, but these are generally brand-specific. 
+									I have, however, discovered that nearly any such power wheelchair accepts a 9-pin D-sub connection, though occasionally an additional adapter is required. 
+									(Invacare Mark 6i electronics, for example, may require the ASL 151MK6i shown here.) This connection is utilized by a variety of drive controls, 
+									such as wafer boards and external switch scanning systems. This plug is actually the same connection as an old Atari joystick, which just expects a 
+									circuit connection between a particular pin and the ground pin to move in a particular direction. If you connect a wire between the "forward" pin and 
+									the ground pin, the chair will move forward.</p>
+								<p>The pins (at least for non-proportional control) for all four major U.S. power wheelchair brands are:</p>
+								<ol>
+									<li>Forward</li>
+									<li>Reverse</li>
+									<li>Left</li>
+									<li>Right</li>
+									<li>(no connection)</li>
+									<li>"Fire" (a.k.a. reset, emergency stop. I haven't experimented with this much yet.)</li>
+									<li>Power (+5v on the chairs that I have tested. You can draw from most chairs to power an Arduino or other microcontroller, but probably not with an Invacare chair.)</li>
+									<li>Ground (a.k.a. common)</li>
+									<li>(no connection)</li>
+								</ol>
+								<p>You can easily figure out the power and control voltages (3, 5, or 12 volts) of your particular chair by connecting a multimeter between the ground and each of the other pins. 
+									However, the control voltage shouldn't matter, because you're just connecting one pin to the other. I used the exact same device with all four wheelchair brands, without 
+									modification, and it worked fine.</p>
+								<p>In order to mimic a "switch closure" and connect two pins of the interface with a microcontroller, you can use a simple transistor (I used the 2N3904 BJT). 
+									Connect the collector pin of the transistor to the desired control (forward, reverse, left, or right) pin of the 9-pin D-sub connector, and the emitter pin to the ground (pin 8). 
+									Then connect the base pin of the transistor to a digital output pin of the microcontroller, through a 4.7 kiloohm resistor (as shown here). When that particular digital 
+									output pin of the microcontroller turns on, current will flow from the control pin to the ground pin, through the transistor. Repeat this circuit for each of the four directions, 
+									and once for the "fire"/mode pin if desired.</p>
+								<p>It is important to note that my current design only gives non-proportional control thus far, as it just mimics switch closures between different pins of that 9-pin plug. 
+									(Proportional control allows the user to vary the speed of movement/turning, as with a standard joystick. Non-proportional control is simply on/off in each direction, 
+									like four buttons.) I have been told that some systems (like the newer Quantum enhanced displays) can also take proportional control through that same plug, and I have an idea 
+									of how that might work, but I haven't tested it. I would guess that, in place of the transistor that "mimics a switch," you could use a digital potentiometer to vary the 
+									resistance between two particular pins. Then the pin for a particular direction would receive a lower voltage than the full "switch closure" (which is 3, 5, or 12 volts, 
+									depending on the brand of chair), and hopefully drive proportionally. This is just my guess, though. If you know more on this topic, I'd love to hear about it.</p>
+								
+								<br>
+								<p><strong>Update:</strong> A very helpful occupational therapist from France (Julien OUDIN) pointed out to me that the R-Net Omni technical manual is publicly available, and includes 
+									specifications for both digital and analog/proportional interfaces (starting on page 129). Last I checked, both Quickie and Permobil chairs used R-Net electronics, and I 
+									suspect the other brands have very similar specifications. I haven't built an analog/proportional interface myself yet, but it shouldn't be too difficult with this information. 
+									I have also hosted the manual here, in case the previous link changes at some point.</p>
+								<p>Regardless of how you end up physically connecting a microcontroller (like an Arduino) to the chair, sending signals to that microcontroller from a computer or smart phone via 
+									Bluetooth is pretty cheap and easy (especially if you use an Arduino). I used a BlueSMiRF Silver connected directly to the serial pins of an Arduino Uno. 
+									The code running on the microcontroller just reads serial data; I never even had to think about how Bluetooth actually works. The code itself is fairly simple, as it just 
+									reads from a serial port and turns on/off a few pins (which control the "switch mimicking" transistors). I used this code, with the free "Processing" environment, but I would 
+									assume that you could do the same or something similar with any such tool.</p>
+								<p>In order to power the microcontroller, you can usually draw power (5 volts) directly from the chair on pin 7. If it is an Invacare chair, or some other brand that doesn't provide power on pin 7, you can simply connect a small battery 
+									(a 9 volt would be perfect). If, for example, you pack an Arduino, BlueSMiRF, and a small circuit board with the transistors into a box with a 9-pin plug, you should be able 
+									to mount it on the chair somewhere out of the way.</p>
+								<p>Any computer, tablet, or smart phone with Bluetooth should be able to pair with the BlueSMiRF through the standard Bluetooth pairing process. 
+									Then you simply send commands to the port that is associated with that Bluetooth connection. In my code, the commands are simply the letters a, b, c, d, and e. 
+									You can change these to anything you like. My code also functions in "latched mode," meaning that a "forward" command will make the chair move forward until it receives a stop command. 
+									Any letter other than a, b, c, d, or e will stop all movement immediately. You could easily change this behavior by adding a delay after each digitalwrite() command, and then setting 
+									the same pin back to LOW. I used Putty to send Bluetooth serial commands from a laptop computer, but there are many ways to send Bluetooth commands. I'm sure you could do something 
+									far more creative and useful, like building a graphical user interface, or passing user inputs (mouse, keyboard, eye tracker, etc.) through a tool like AutoHotkey or EventGhost.</p>
+								<p>With this setup, I can sit across the room and drive a wheelchair wirelessly with my laptop/tablet.</p>
+								
+								<br>
+								<p>In order to implement a new eye-controlled wheelchair from this point, the following would be necessary:</p>
+								<ul>
+									<li>Tablet or laptop PC with commercially available eye tracker mounted in front of the user</li>
+									<li>Webcam aiming forward, at what would be the user's view from the wheelchair</li>
+									<li>Real-time stream from webcam displayed on the PC's screen, possibly with a HUD/overlay for control of forward/back, speed, and mode</li>
+									<li>The aforementioned computer-wheelchair interface to pass cursor movements (as controlled by the eye tracker) to the wheelchair</li>
+								</ul>
+								<p>One major drawback to this method thus far has been the fact that a tablet PC or AAC device with an eye tracker generally cost $8,000-15,000 (USD). Fortunately, inexpensive eye trackers 
+									have appeared, including The Eye Tribe and Tobii EyeX. 
+									This could also be circumvented by using a home-built or open source eye tracker (like one of Jason Babcock's design).</p>
+								<p>I plan to continue working on this project, but I would be very happy to see how others tackle this problem, especially as this may be the perfect scope for an engineering senior design project.</p>
 							</article>
 						
 							<article id="mdxbox">
