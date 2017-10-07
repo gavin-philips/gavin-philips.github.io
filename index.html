@@ -217,7 +217,8 @@
 									The code running on the microcontroller just reads serial data; I never even had to think about how Bluetooth actually works. The code itself is fairly simple, as it just 
 									reads from a serial port and turns on/off a few pins (which control the "switch mimicking" transistors). I used <a href="/docs/Bluetooth_Wheelchair_Control.pde">this code</a>, 
 									with the free "<a href="https://processing.org/">Processing</a>" environment, but I would 
-									assume that you could do the same or something similar with any such tool. <strong>The layout and code are available in one package in 
+									assume that you could do the same or something similar with any such tool.</p>
+								<p><strong>The layout and code are available in one package in 
 									<a href="/docs/wheelchair_interface_fritzing.fzz">this Fritzing file</a>.</strong> (Learn more about <a href="http://fritzing.org">Fritzing</a> here.)</p>
 								<p>In order to power the microcontroller, you can usually draw power (5 volts) directly from the chair on pin 7. If it is an Invacare chair, or some other brand that doesn't provide power on pin 7, you can simply connect a small battery 
 									(a 9 volt would be perfect). If, for example, you pack an Arduino, BlueSMiRF, and a small circuit board with the transistors into a box with a 9-pin plug, you should be able 
