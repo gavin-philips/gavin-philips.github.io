@@ -140,7 +140,34 @@
 								<h2 class="major" style="width:100%">Eye controlled wheelchair</h2>
 								<span class="image right"><img src="/images/EOG_chair.JPG" alt="Wheelchair with electronics for eye control" /></span>
 						
-								<p>Text</p>
+								<p>This adventure began as my senior design project, for which Andrew Catellier and I received the Best Team Project award. 
+									After graduation, I continued the project, and it became the focus of my master's thesis. Due to complications in the filtering and analysis of EOG (electrooculogram) signals, 
+									the wheelchair served only as a proof of concept, and could not be tested by a subject with disabilities. I have decided to take a new approach, 
+									which begins with designing a <a href="#chairinterface">universal Computer-Wheelchair Interface</a>.</p>
+								<p>The prompt was to design a way for a person who could not use his/her hands to control a wheelchair. This is currently accomplished through a variety of methods, 
+									including arrays of proximity sensors placed in a headrest, chin/mouth joysticks, "sip and puff" units that sense the pressure of a user's breath in a tube, 
+									single switch scanning methods that can utilize a variety of "ability switches," and many more. Unfortunately, the needs and abilities of each user vary greatly, 
+									as does the effectiveness of each control method. We decided to add another option to the collective toolbox: eye movement.</p>
+								<p>Eye tracking is already used by people with disabilities for communication. A person who cannot speak may use an AAC (Augmentative and Alternative Communication) device, 
+									the most complicated of which are rugged tablet PCs with specialized software installed. Several such devices are now available with infrared VOG (videooculogram) 
+									based eye tracking, including offerings from <a href="https://www.tobiidynavox.com/products/devices/">Tobii Dynavox</a>, 
+									<a href="https://www.eyetechds.com/tm5-mini-assistive-tech.html">EyeTech</a>, and <a href="http://wiki.cogain.org/index.php/Eye_Trackers">many more</a>. 
+									Our approach instead utilizes EOG (electrooculogram), which does not require any hardware to placed in the user's field of view.</p>
+								<p>While EOG can sense both vertical and horizontal movement of the eyes, we opted to use only horizontal movement for steering, as it seemed impractical for a user to 
+									look up and down in order to move forward and backward. Instead, the chair cycles through modes, including "conversation," "pivot," "forward," and "backward." 
+									These modes are controlled by a pair of 3.5 mm (1/8") mono jacks, which are compatible with most "<a href="https://www.ablenetinc.com/technology/switches">ability switches</a>." 
+									For testing, a "sip and puff" unit was used.</p>
+								<p>The system is controlled by a Motorola HCS12 "Minidragon" microcontroller, and powered by four 7.2 volt battery packs (in order isolate the user from the wheelchair's power system).</p>
+								<p>Unfortunately, the DC drift inherent in EOG signals makes them very difficult to use for control of such a system. 
+									<a href="https://www.bc.edu/schools/csom/eagleeyes/">The EagleEyes system</a> utilizes a DC blocking filter to circumvent this problem, but while continually drifting toward 
+									center is acceptable for a mouse cursor, it is impractical for wheelchair control. In addition, the process of reverse engineering and hacking the electronics of the existing 
+									wheelchair is time consuming and introduces liability issues.</p>
+								<p>I plan to address these problems and take advantage of existing eye tracking technology through a new approach, described in my <a href="#chairinterface">Computer-Wheelchair Interface project</a>.</p>
+								<p>Associated publications:</p>
+								<ul>
+									<li>G. R. Philips, A. A. Catellier, S. F. Barrett, and C. H. G. Wright, "Electrooculogram Wheelchair Control," <em>ISA Biomedical Sciences Instrumentation</em>, 43, Apr. 2007, pp. 164-169.</li>
+									<li>G. R. Philips, C. H. G. Wright, and S. F. Barrett, "Expanding Smart Wheelchair Technology for Users with Severe Disabilities," <em>ISA Biomedical Sciences Instrumentation</em>, 44, Apr. 2008, pp. 47-52.</li>
+								</ul>
 							</article>
 						
 							<article id="eegstroke">
