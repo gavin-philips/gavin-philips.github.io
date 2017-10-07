@@ -170,8 +170,10 @@
 									(Invacare, Pride/Quantum, Quickie, and Permobil) use different, proprietary connections to interface with specialized drive controls. 
 									Some developers (like <a href="http://www.asl-inc.com/">Adaptive Switch Labs</a>) produce products that interface with these connections, but these are generally brand-specific. 
 									I have, however, discovered that nearly any such power wheelchair accepts a 9-pin D-sub connection, though occasionally an additional adapter is required. 
-									(Invacare Mark 6i electronics, for example, may require the ASL 151MK6i shown here.) This connection is utilized by a variety of drive controls, 
-									such as wafer boards and external switch scanning systems. This plug is actually the same connection as an old Atari joystick, which just expects a 
+									(Invacare Mark 6i electronics, for example, may require the ASL 151MK6i shown <a href="/docs/ASL_interface_components.pdf">here</a>.) This connection is utilized by a variety of 
+									<a href="https://mobilitybasics.ca/wheelchairs/drivecontrols">drive controls</a>, 
+									such as wafer boards and external switch scanning systems. This plug is actually the same connection as an old 
+									<a href="http://www.oneswitch.org.uk/4/DIY/retro-pinouts.htm">Atari joystick</a>, which just expects a 
 									circuit connection between a particular pin and the ground pin to move in a particular direction. If you connect a wire between the "forward" pin and 
 									the ground pin, the chair will move forward.</p>
 								<p>The pins (at least for non-proportional control) for all four major U.S. power wheelchair brands are:</p>
@@ -189,9 +191,11 @@
 								<p>You can easily figure out the power and control voltages (3, 5, or 12 volts) of your particular chair by connecting a multimeter between the ground and each of the other pins. 
 									However, the control voltage shouldn't matter, because you're just connecting one pin to the other. I used the exact same device with all four wheelchair brands, without 
 									modification, and it worked fine.</p>
-								<p>In order to mimic a "switch closure" and connect two pins of the interface with a microcontroller, you can use a simple transistor (I used the 2N3904 BJT). 
+								<p>In order to mimic a "switch closure" and connect two pins of the interface with a microcontroller, you can use a simple transistor (I used the 
+									<a href="https://en.wikipedia.org/wiki/2N3904">2N3904 BJT</a>). 
 									Connect the collector pin of the transistor to the desired control (forward, reverse, left, or right) pin of the 9-pin D-sub connector, and the emitter pin to the ground (pin 8). 
-									Then connect the base pin of the transistor to a digital output pin of the microcontroller, through a 4.7 kiloohm resistor (as shown here). When that particular digital 
+									Then connect the base pin of the transistor to a digital output pin of the microcontroller, through a 4.7 kiloohm resistor (as shown 
+									<a href="/docs/wheelchair_interface_schematic.png">here</a>). When that particular digital 
 									output pin of the microcontroller turns on, current will flow from the control pin to the ground pin, through the transistor. Repeat this circuit for each of the four directions, 
 									and once for the "fire"/mode pin if desired.</p>
 								<p>It is important to note that my current design only gives non-proportional control thus far, as it just mimics switch closures between different pins of that 9-pin plug. 
@@ -202,15 +206,19 @@
 									depending on the brand of chair), and hopefully drive proportionally. This is just my guess, though. If you know more on this topic, I'd love to hear about it.</p>
 								
 								<br>
-								<p><strong>Update:</strong> A very helpful occupational therapist from France (Julien OUDIN) pointed out to me that the R-Net Omni technical manual is publicly available, and includes 
+								<p><strong>Update:</strong> A very helpful occupational therapist from France (Julien OUDIN) pointed out to me that the 
+									<a href="http://sunrise.pgdrivestechnology.com/manuals/pgdt_omni_manual_sk78813-03.pdf">R-Net Omni technical manual</a> is publicly available, and includes 
 									specifications for both digital and analog/proportional interfaces (starting on page 129). Last I checked, both Quickie and Permobil chairs used R-Net electronics, and I 
 									suspect the other brands have very similar specifications. I haven't built an analog/proportional interface myself yet, but it shouldn't be too difficult with this information. 
-									I have also hosted the manual here, in case the previous link changes at some point.</p>
+									I have also hosted the manual <a href="/docs/pgdt_omni_manual.pdf">here</a>, in case the previous link changes at some point.</p>
 								<p>Regardless of how you end up physically connecting a microcontroller (like an Arduino) to the chair, sending signals to that microcontroller from a computer or smart phone via 
-									Bluetooth is pretty cheap and easy (especially if you use an Arduino). I used a BlueSMiRF Silver connected directly to the serial pins of an Arduino Uno. 
+									Bluetooth is pretty cheap and easy (especially if you use an Arduino). I used a <a href="https://www.sparkfun.com/products/12577">BlueSMiRF Silver</a> connected directly to 
+									the serial pins of an <a href="https://www.sparkfun.com/products/11224">Arduino Uno</a>. 
 									The code running on the microcontroller just reads serial data; I never even had to think about how Bluetooth actually works. The code itself is fairly simple, as it just 
-									reads from a serial port and turns on/off a few pins (which control the "switch mimicking" transistors). I used this code, with the free "Processing" environment, but I would 
-									assume that you could do the same or something similar with any such tool.</p>
+									reads from a serial port and turns on/off a few pins (which control the "switch mimicking" transistors). I used <a href="/docs/Bluetooth_Wheelchair_Control.pde">this code</a>, 
+									with the free "<a href="https://processing.org/">Processing</a>" environment, but I would 
+									assume that you could do the same or something similar with any such tool. <strong>The layout and code are available in one package in 
+									<a href="/docs/wheelchair_interface_fritzing.fzz">this Fritzing file</a>.</strong> (Learn more about <a href="http://fritzing.org">Fritzing</a> here.)</p>
 								<p>In order to power the microcontroller, you can usually draw power (5 volts) directly from the chair on pin 7. If it is an Invacare chair, or some other brand that doesn't provide power on pin 7, you can simply connect a small battery 
 									(a 9 volt would be perfect). If, for example, you pack an Arduino, BlueSMiRF, and a small circuit board with the transistors into a box with a 9-pin plug, you should be able 
 									to mount it on the chair somewhere out of the way.</p>
@@ -218,8 +226,9 @@
 									Then you simply send commands to the port that is associated with that Bluetooth connection. In my code, the commands are simply the letters a, b, c, d, and e. 
 									You can change these to anything you like. My code also functions in "latched mode," meaning that a "forward" command will make the chair move forward until it receives a stop command. 
 									Any letter other than a, b, c, d, or e will stop all movement immediately. You could easily change this behavior by adding a delay after each digitalwrite() command, and then setting 
-									the same pin back to LOW. I used Putty to send Bluetooth serial commands from a laptop computer, but there are many ways to send Bluetooth commands. I'm sure you could do something 
-									far more creative and useful, like building a graphical user interface, or passing user inputs (mouse, keyboard, eye tracker, etc.) through a tool like AutoHotkey or EventGhost.</p>
+									the same pin back to LOW. I used <a href="http://www.putty.org/">Putty</a> to send Bluetooth serial commands from a laptop computer, but there are many ways to send Bluetooth commands. I'm sure you could do something 
+									far more creative and useful, like building a graphical user interface, or passing user inputs (mouse, keyboard, eye tracker, etc.) through a tool like <a href="https://www.autohotkey.com/">AutoHotkey</a> 
+									or <a href="http://www.eventghost.net/">EventGhost</a>.</p>
 								<p>With this setup, I can sit across the room and drive a wheelchair wirelessly with my laptop/tablet.</p>
 								
 								<br>
@@ -231,8 +240,8 @@
 									<li>The aforementioned computer-wheelchair interface to pass cursor movements (as controlled by the eye tracker) to the wheelchair</li>
 								</ul>
 								<p>One major drawback to this method thus far has been the fact that a tablet PC or AAC device with an eye tracker generally cost $8,000-15,000 (USD). Fortunately, inexpensive eye trackers 
-									have appeared, including The Eye Tribe and Tobii EyeX. 
-									This could also be circumvented by using a home-built or open source eye tracker (like one of Jason Babcock's design).</p>
+									have appeared, like those marketed for gaming by <a href="https://tobiigaming.com/products/">Tobii</a>. (Unfortunately, <a href="https://techcrunch.com/tag/the-eye-tribe/">The Eye Tribe</a> was sold to Facebook for Oculus integration.)
+									This could also be circumvented by using a home-built or open source eye tracker (like one of <a href="http://www.jasonbabcock.com/eyetracking_hardware.html">Jason Babcock's designs</a>).</p>
 								<p>I plan to continue working on this project, but I would be very happy to see how others tackle this problem, especially as this may be the perfect scope for an engineering senior design project.</p>
 							</article>
 						
