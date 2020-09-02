@@ -298,7 +298,7 @@
 					var $this = $(this);
 
 					// Close.
-						$('<div type="button" class="close">Close</div>')	/* Gavin modified */
+						$('<div tabindex="0" type="button" class="close">Close</div>')	/* Gavin modified */
 							.appendTo($this)
 							.on('click', function() {
 								location.hash = '';
