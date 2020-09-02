@@ -1278,6 +1278,8 @@
 			padding-left: 0;
 			border: solid 1px #ffffff;
 			border-radius: 4px;
+			background: #000000;
+			opacity: 1;
 		}
 
 			#header nav ul li {
