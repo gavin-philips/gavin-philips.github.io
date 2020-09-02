@@ -302,7 +302,7 @@
 							.appendTo($this)
 							.on('click', function() {
 								location.hash = '';
-							}
+							})
 							/* Gavin adding below to make keyboard accessible */
 							.on('keydown', function(e) {
 								var code = e.which;
