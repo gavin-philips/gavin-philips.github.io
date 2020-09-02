@@ -1279,7 +1279,7 @@
 			border: solid 1px #ffffff;
 			border-radius: 4px;
 			background: #000000;	/* Gavin added */
-			opacity: 0.5;	/* Gavin added */
+			/*opacity: 0.5;	/* Gavin added */ */
 		}
 
 			#header nav ul li {
