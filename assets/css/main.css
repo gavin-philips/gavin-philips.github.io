@@ -1503,6 +1503,7 @@
 				text-indent: 4rem;
 				overflow: hidden;
 				white-space: nowrap;
+				tab-index: 0;
 			}
 
 				#main article .close:before {
