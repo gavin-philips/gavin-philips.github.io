@@ -302,6 +302,13 @@
 							.appendTo($this)
 							.on('click', function() {
 								location.hash = '';
+							}
+							/* Gavin adding below to make keyboard accessible */
+							.on('keydown', function(e) {
+								var code = e.which;
+								if ((code === 13) || (code === 32)) {
+									$(this).click();
+								}
 							});
 
 					// Prevent clicks from inside article from bubbling.
