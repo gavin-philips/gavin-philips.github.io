@@ -28,7 +28,7 @@
 		// Disable animations/transitions until the page has loaded.
 			$body.addClass('is-loading');
 
-			$window.on('load', function() {
+		$window.on('load', function() {
 				window.setTimeout(function() {
 					$body.removeClass('is-loading');
 				}, 100);
@@ -302,6 +302,7 @@
 							.appendTo($this)
 							.on('click', function() {
 								location.hash = '';
+								document.activeElement.focus();
 							})
 							/* Gavin adding below to make keyboard accessible */
 							.on('keydown', function(e) {
