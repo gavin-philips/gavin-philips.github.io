@@ -302,7 +302,6 @@
 							.appendTo($this)
 							.on('click', function() {
 								location.hash = '';
-								document.activeElement.focus();
 							})
 							/* Gavin adding below to make keyboard accessible */
 							.on('keydown', function(e) {
